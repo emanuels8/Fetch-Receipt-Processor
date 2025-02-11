@@ -1,9 +1,6 @@
 const Joi = require("joi");
 
 const receipt = Joi.object({
-  id: Joi.string().uuid().required(),
-  createdAt: Joi.string().isoDate().required(),
-  updatedAt: Joi.string().isoDate().required(),
   retailer: Joi.string().required(),
   purchaseDate: Joi.string().isoDate().required(),
   purchaseTime: Joi.string()
@@ -24,10 +21,4 @@ const receipt = Joi.object({
     .required(),
 });
 
-const getPoints = {
-  query: Joi.object().keys({
-    id: Joi.string(),
-  }),
-};
-
-module.exports = { receipt, getPoints };
+module.exports = { receipt };

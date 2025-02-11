@@ -1,5 +1,7 @@
 const helper = require("../helpers/helper");
 const receiptHelper = require("../helpers/receiptHelper");
+const { status } = require("http-status");
+
 let receipts = require("../data/receiptProcessorData.json");
 const filename = "receiptProcessorData.json";
 
@@ -32,10 +34,15 @@ const getPointById = async (id) => {
     const foundReceipt = helper
       .readJSONFile(filename)
       .find((localReceipts) => localReceipts?.id === id);
-
-    const calculatedPoints = receiptHelper.calculatePoints(foundReceipt);
-
-    resolve(calculatedPoints);
+    if (foundReceipt) {
+      const calculatedPoints = receiptHelper.calculatePoints(foundReceipt);
+      resolve({ points: calculatedPoints, status: status.OK });
+    } else {
+      resolve({
+        points: null,
+        status: status.NOT_FOUND,
+      });
+    }
   });
 };
 
